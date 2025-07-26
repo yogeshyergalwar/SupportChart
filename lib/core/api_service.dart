@@ -26,7 +26,8 @@ class ApiService {
   }
 
   Future<List<ChatModel>> getChats(String userId) async {
-    final response = await http.get(Uri.parse('$baseUrl/chats/user-chats/$userId'));
+    final response =
+        await http.get(Uri.parse('$baseUrl/chats/user-chats/$userId'));
 
     print("Chat API Response: ${response.body}");
 
@@ -37,10 +38,6 @@ class ApiService {
       throw Exception('Failed to load chats');
     }
   }
-
-
-
-
 
   Future<List<MessageModel>> getChatMessages(String chatId) async {
     final url = Uri.parse('$baseUrl/messages/get-messagesformobile/$chatId');
@@ -53,7 +50,8 @@ class ApiService {
     }
   }
 
-  Future<bool> sendMessage(String chatId, String senderId, String content) async {
+  Future<bool> sendMessage(
+      String chatId, String senderId, String content) async {
     final url = Uri.parse('$baseUrl/messages/sendMessage');
     final response = await http.post(url, body: {
       'chatId': chatId,
@@ -63,6 +61,9 @@ class ApiService {
       'fileUrl': ''
     });
 
-    return response.statusCode == 200;
+    print('SEND MESSAGE RESPONSE: ${response.statusCode}');
+    print('SEND MESSAGE BODY: ${response.body}');
+
+    return response.statusCode == 200 || response.statusCode == 201;
   }
 }
